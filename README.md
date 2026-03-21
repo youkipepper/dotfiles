@@ -27,25 +27,25 @@ This repository automatically configures your development environment in a repro
 📁 Dotfiles management
 
 All configs are symlinked into ~/.config/:
-	•	nvim → Neovim configuration
-	•	kitty → Terminal emulator config
-	•	btop → System monitor config
-	•	ghostty → Terminal config
-	•	zsh → Shell configuration
-	•	and more…
+- nvim → Neovim configuration
+- kitty → Terminal emulator config
+- btop → System monitor config
+- ghostty → Terminal config
+- zsh → Shell configuration
+- and more…
 
 ⸻
 
 🐚 Shell Environment (Zsh)
 
 Automatically configures:
-	•	Installs Oh My Zsh (if missing)
-	•	Sets up:
-	•	~/.zshrc
-	•	~/.zprofile
-	•	Installs plugins:
-	•	zsh-autosuggestions
-	•	zsh-syntax-highlighting
+- Installs Oh My Zsh (if missing)
+- Sets up:
+  - ~/.zshrc
+  - ~/.zprofile
+- Installs plugins:
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
 
 ⸻
 
@@ -83,28 +83,28 @@ dotfiles/
 ⚙️ Requirements
 
 Before running:
-	•	git
-	•	bash
-	•	Internet connection
+- git
+- bash
+- Internet connection
 
 Optional (auto-installed if missing):
-	•	zsh
-	•	curl
+- zsh
+- curl
 
 ⸻
 
 ⚠️ Safety Notes
-	•	This script will NOT overwrite existing files
-	•	It will only create symlinks or skip safely
-	•	Always review the script before running from unknown sources
+- This script will NOT overwrite existing files
+- It will only create symlinks or skip safely
+- Always review the script before running from unknown sources
 
 ⸻
 
 🧠 Design Philosophy
-	•	Reproducible environment
-	•	No destructive operations
-	•	Modular and easy to extend
-	•	Works across machines
+- Reproducible environment
+- No destructive operations
+- Modular and easy to extend
+- Works across machines
 
 ⸻
 
