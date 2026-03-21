@@ -96,7 +96,7 @@ git_clone_if_missing \
 # zsh config
 # ----------------------------
 link_item "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-link_item "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
+# link_item "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 
 echo "If zsh is not your default shell, you can change it with:"
 echo "chsh -s $(which zsh)"
