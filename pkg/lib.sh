@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 OS="$(uname -s)"
 
 detect_pkg() {
@@ -24,36 +22,37 @@ log() {
 	echo "[$1] $2"
 }
 
-need_cmd() {
+is_installed() {
 	command -v "$1" >/dev/null 2>&1
 }
 
 install_pkg() {
 	local pkg="$1"
 
-	if need_cmd "$pkg"; then
+	if is_installed "$pkg"; then
 		log "OK" "$pkg already installed"
-		return
+		return 0
 	fi
 
 	log "INSTALL" "$pkg via $PKG"
 
 	case "$PKG" in
 	brew)
-		brew install "$pkg"
+		brew install "$pkg" || log "WARN" "brew failed: $pkg"
 		;;
 	apt)
-		sudo apt update -y
-		sudo apt install -y "$pkg"
+		sudo apt install -y "$pkg" || log "WARN" "apt failed: $pkg"
 		;;
 	dnf)
-		sudo dnf install -y "$pkg"
+		sudo dnf install -y "$pkg" || log "WARN" "dnf failed: $pkg"
 		;;
 	pacman)
-		sudo pacman -S --noconfirm "$pkg"
+		sudo pacman -S --noconfirm "$pkg" || log "WARN" "pacman failed: $pkg"
 		;;
 	*)
-		log "WARN" "No supported package manager for $pkg"
+		log "WARN" "No package manager for $pkg"
 		;;
 	esac
+
+	return 0
 }

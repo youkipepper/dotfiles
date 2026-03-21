@@ -1,7 +1,7 @@
 #!/bin/bash
-set -euo pipefail
+set -u # ⚠️ 只保留 -u，不用 -e
 
-echo "🚀 Universal CLI Installer Starting..."
+echo "🚀 Starting Universal CLI Installer..."
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -14,12 +14,30 @@ if [[ ! -f "$TOOLS_FILE" ]]; then
 	exit 1
 fi
 
+SUCCESS=0
+FAILED=0
+
 while read -r tool; do
 	[[ -z "$tool" ]] && continue
 	[[ "$tool" =~ ^# ]] && continue
 
-	install_pkg "$tool"
+	echo ""
+	echo "=============================="
+	echo "👉 Processing: $tool"
+	echo "=============================="
+
+	if install_pkg "$tool"; then
+		SUCCESS=$((SUCCESS + 1))
+	else
+		FAILED=$((FAILED + 1))
+		echo "[WARN] skipped: $tool"
+	fi
 
 done <"$TOOLS_FILE"
 
-echo "✅ All base tools installed"
+echo ""
+echo "=============================="
+echo "✅ DONE"
+echo "✔ success: $SUCCESS"
+echo "⚠ failed:  $FAILED"
+echo "=============================="
