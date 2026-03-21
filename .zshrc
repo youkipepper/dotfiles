@@ -118,8 +118,8 @@ export VCPKG_ROOT=$HOME/Desktop/3rd_party/vcpkg
 # export PATH="/opt/homebrew/anaconda3/bin:$PATH"  # commented out by conda initialize
 # <<< Anaconda (Homebrew) <<<
 
-# preexec() { timer=${SECONDS} }          
-# precmd() { 
+# preexec() { timer=${SECONDS} }
+# precmd() {
 #   if [ -n "$timer" ]; then
 #     elapsed=$(($SECONDS - $timer))
 #     echo "⏱ Command took ${elapsed}s"
@@ -127,22 +127,20 @@ export VCPKG_ROOT=$HOME/Desktop/3rd_party/vcpkg
 #   fi
 # }
 
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
 if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+	eval "$__conda_setup"
 else
-    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
-    fi
+	if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+		. "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+	else
+		export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+	fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
 
 # android studio
 export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -154,8 +152,15 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 alias comfy='conda activate comfyui && cd ~/Desktop/Code/ComfyUI && python main.py'
 
 for i in {2..31}; do
-  alias f$i="fastfetch -c examples/$i.jsonc"
+	alias f$i="fastfetch -c examples/$i.jsonc"
 done
 
 alias mtlhub='env MTL_HUD_ENABLED=1'
 
+gacp() {
+	git add . &&
+		git commit -m "update: $(date '+%Y-%m-%d %H:%M:%S')" &&
+		git push
+}
+
+export TERM=xterm-256color
