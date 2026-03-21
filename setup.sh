@@ -6,34 +6,12 @@ echo "🚀 Setting up environment..."
 # ----------------------------
 # check tools
 # ----------------------------
-for cmd in curl git; do
+for cmd in curl git zsh; do
 	if ! command -v "$cmd" >/dev/null 2>&1; then
 		echo "❌ $cmd is required"
 		exit 1
 	fi
 done
-
-# ----------------------------
-# install zsh if missing
-# ----------------------------
-if ! command -v zsh >/dev/null 2>&1; then
-	echo "📦 zsh not found, installing..."
-
-	if command -v apt >/dev/null 2>&1; then
-		sudo apt update && sudo apt install -y zsh
-	elif command -v dnf >/dev/null 2>&1; then
-		sudo dnf install -y zsh
-	elif command -v pacman >/dev/null 2>&1; then
-		sudo pacman -S --noconfirm zsh
-	elif command -v brew >/dev/null 2>&1; then
-		brew install zsh
-	else
-		echo "❌ No supported package manager found"
-		exit 1
-	fi
-fi
-
-echo "✔ zsh: $(which zsh)"
 
 # ----------------------------
 # check dotfiles
@@ -99,25 +77,6 @@ git_clone_if_missing \
 ln -sfn "$HOME/dotfiles/.zshrc" "$HOME/.zshrc"
 ln -sfn "$HOME/dotfiles/.zprofile" "$HOME/.zprofile"
 
-# ----------------------------
-# set zsh as default shell
-# ----------------------------
-ZSH_PATH="$(which zsh)"
-
-if [ -n "$ZSH_PATH" ]; then
-	if [ "$SHELL" != "$ZSH_PATH" ]; then
-		echo "🔧 Setting zsh as default shell..."
-
-		if grep -q "$ZSH_PATH" /etc/shells 2>/dev/null; then
-			chsh -s "$ZSH_PATH" "$USER" || echo "⚠️ chsh failed (try manually)"
-		else
-			echo "⚠️ zsh not in /etc/shells, trying to add..."
-			echo "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null || true
-			chsh -s "$ZSH_PATH" "$USER" || echo "⚠️ chsh failed (try manually)"
-		fi
-	else
-		echo "✔ zsh already default shell"
-	fi
-fi
-
-echo "✅ Done. Please restart terminal or run: exec zsh"
+echo "If zsh is not your default shell, you can change it with:"
+echo "chsh -s $(which zsh)"
+echo "✅ Setup complete! Please restart your terminal."
