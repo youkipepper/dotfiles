@@ -1,18 +1,23 @@
 #!/bin/bash
-set -u # ⚠️ 只保留 -u，不用 -e
-
-echo "🚀 Starting Universal CLI Installer..."
+set -u
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
 source "$DIR/lib.sh"
 
-TOOLS_FILE="$DIR/tools.conf"
+MODE="${1:-cli}"
 
-if [[ ! -f "$TOOLS_FILE" ]]; then
-	echo "❌ tools.conf not found"
+if [[ "$MODE" == "cli" ]]; then
+	FILE="$DIR/cli.conf"
+elif [[ "$MODE" == "gui" ]]; then
+	FILE="$DIR/gui.conf"
+else
+	echo "Usage: install.sh [cli|gui]"
 	exit 1
 fi
+
+echo "🚀 Installing mode: $MODE"
+echo "📦 Using file: $FILE"
 
 SUCCESS=0
 FAILED=0
@@ -22,22 +27,20 @@ while read -r tool; do
 	[[ "$tool" =~ ^# ]] && continue
 
 	echo ""
-	echo "=============================="
-	echo "👉 Processing: $tool"
-	echo "=============================="
+	echo "👉 $tool"
 
 	if install_pkg "$tool"; then
 		SUCCESS=$((SUCCESS + 1))
 	else
 		FAILED=$((FAILED + 1))
-		echo "[WARN] skipped: $tool"
+		echo "[WARN] skipped $tool"
 	fi
 
-done <"$TOOLS_FILE"
+done <"$FILE"
 
 echo ""
-echo "=============================="
-echo "✅ DONE"
+echo "===================="
+echo "DONE ($MODE)"
 echo "✔ success: $SUCCESS"
-echo "⚠ failed:  $FAILED"
-echo "=============================="
+echo "⚠ failed: $FAILED"
+echo "===================="
