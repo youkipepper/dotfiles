@@ -63,12 +63,6 @@ echo "✅ Dotfiles setup complete!"
 echo "⚠️ Skipped existing files that are not symlinks. Delete or backup those files and rerun the script to link them."
 
 # ----------------------------
-# zsh config
-# ----------------------------
-link_item "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-# link_item "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
-
-# ----------------------------
 # install oh-my-zsh
 # ----------------------------
 echo "🚀 Setting up zsh environment..."
@@ -97,6 +91,18 @@ git_clone_if_missing \
 git_clone_if_missing \
 	https://github.com/zsh-users/zsh-syntax-highlighting \
 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+
+# ----------------------------
+# zsh config
+# ----------------------------
+echo "🔗 Replacing ~/.zshrc with dotfiles version..."
+
+if [ -e "$HOME/.zshrc" ] || [ -L "$HOME/.zshrc" ]; then
+	echo "🧹 Removing existing ~/.zshrc"
+	rm -f "$HOME/.zshrc"
+fi
+link_item "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+# link_item "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 
 echo "If zsh is not your default shell, you can change it with:"
 echo "chsh -s $(which zsh)"
