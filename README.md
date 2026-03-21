@@ -14,13 +14,13 @@ bash setup.sh
 
 💡 Recommended: run on a fresh system or test VM first
 
-⸻
+---
 
 📦 What this setup does
 
 This repository automatically configures your development environment in a reproducible way.
 
-⸻
+---
 
 🔧 System Configuration
 
@@ -34,7 +34,7 @@ All configs are symlinked into ~/.config/:
 - zsh → Shell configuration
 - and more…
 
-⸻
+---
 
 🐚 Shell Environment (Zsh)
 
@@ -47,7 +47,7 @@ Automatically configures:
   - zsh-autosuggestions
   - zsh-syntax-highlighting
 
-⸻
+---
 
 🔗 Symlink Behavior (Important)
 
@@ -64,7 +64,7 @@ Example output:
 ⚠️ skip ~/.zshrc (exists and is not a symlink)
 ```
 
-⸻
+---
 
 📁 Expected Directory Structure
 
@@ -78,7 +78,7 @@ dotfiles/
 └── ghostty/
 ```
 
-⸻
+---
 
 ⚙️ Requirements
 
@@ -91,14 +91,14 @@ Optional (auto-installed if missing):
 - zsh
 - curl
 
-⸻
+---
 
 ⚠️ Safety Notes
 - This script will NOT overwrite existing files
 - It will only create symlinks or skip safely
 - Always review the script before running from unknown sources
 
-⸻
+---
 
 🧠 Design Philosophy
 - Reproducible environment
@@ -106,7 +106,7 @@ Optional (auto-installed if missing):
 - Modular and easy to extend
 - Works across machines
 
-⸻
+---
 
 🚀 Example Output
 
