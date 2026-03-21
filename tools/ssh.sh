@@ -44,7 +44,7 @@ touch "$CONFIG"
 
 if ! grep -q "IdentityFile ~/.ssh/id_ed25519" "$CONFIG"; then
 	echo "🔧 Updating SSH config..."
-	cat <<EOF >> "$CONFIG"
+	cat <<EOF >>"$CONFIG"
 
 Host *
   AddKeysToAgent yes
