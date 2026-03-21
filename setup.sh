@@ -4,6 +4,11 @@ set -euo pipefail
 echo "🚀 Setting up environment..."
 
 # ----------------------------
+# resolve dotfiles path
+# ----------------------------
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# ----------------------------
 # check tools
 # ----------------------------
 for cmd in curl git zsh; do
