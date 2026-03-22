@@ -116,3 +116,8 @@ Optional (auto-installed if missing):
 ⚠️ skip ~/.zshrc (already exists)
 ✔ setup complete
 ```
+
+---
+
+## 🔗 Related Projects
+- [clash-verge](https://github.com/clash-verge-rev/clash-verge-rev)
