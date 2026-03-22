@@ -107,3 +107,27 @@ link_item "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 echo "If zsh is not your default shell, you can change it with:"
 echo "chsh -s $(which zsh)"
 echo "✅ Setup complete! Please restart your terminal."
+
+# ----------------------------
+# SSH config (ONLY config file)
+# ----------------------------
+echo "🔐 Setting up SSH config..."
+
+mkdir -p "$HOME/.ssh"
+
+SSH_SRC="$DOTFILES_DIR/.ssh/config"
+SSH_DST="$HOME/.ssh/config"
+
+if [ -f "$SSH_SRC" ]; then
+	if [ -e "$SSH_DST" ] && [ ! -L "$SSH_DST" ]; then
+		echo "⚠️  ~/.ssh/config exists and is not a symlink, skipping"
+	elif [ -L "$SSH_DST" ]; then
+		echo "🔄 updating symlink ~/.ssh/config"
+		ln -sfn "$SSH_SRC" "$SSH_DST"
+	else
+		echo "🔗 linking ~/.ssh/config"
+		ln -s "$SSH_SRC" "$SSH_DST"
+	fi
+else
+	echo "⚠️  dotfiles SSH config not found: $SSH_SRC"
+fi
