@@ -120,4 +120,4 @@ Optional (auto-installed if missing):
 ---
 
 ## 🔗 Related Projects
-- [clash-verge](https://github.com/clash-verge-rev/clash-verge-rev)
+- [clash-verge](https://github.com/nelvko/clash-for-linux-install?tab=readme-ov-file)
