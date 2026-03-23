@@ -31,14 +31,15 @@ fi
 # ----------------------------
 # paths
 # ----------------------------
-INSTALL_DIR="$HOME/clash"
 REPO_URL="https://gh-proxy.org/https://github.com/nelvko/clash-for-linux-install.git"
+INSTALL_DIR="$HOME/clash-for-linux-install"
 
 # ----------------------------
 # clone repo
 # ----------------------------
-if [ -d "$INSTALL_DIR" ]; then
-    echo "📁 Directory exists: $INSTALL_DIR"
+if [ -d "$INSTALL_DIR/.git" ]; then
+    echo "📁 Repo already exists, pulling latest..."
+    git -C "$INSTALL_DIR" pull
 else
     echo "📦 Cloning to $INSTALL_DIR..."
     git clone --branch master --depth 1 "$REPO_URL" "$INSTALL_DIR"
@@ -47,17 +48,16 @@ fi
 cd "$INSTALL_DIR"
 
 # ----------------------------
-# run install (user mode hint)
+# run install
 # ----------------------------
 echo "⚙️ Running install script..."
 
 echo "⚠️ NOTE:"
 echo "This upstream script may try to install to system directories."
-echo "You may need to modify install.sh if you want fully user-space install."
+echo "You may need sudo depending on system configuration."
 
 bash install.sh || {
-    echo "❌ install.sh failed (likely due to permission issues)"
-    echo "👉 You may need to edit install.sh to use \$HOME paths instead of /usr/local"
+    echo "❌ install.sh failed"
     exit 1
 }
 
