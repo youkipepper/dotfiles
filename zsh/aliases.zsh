@@ -12,3 +12,8 @@ alias mtlhub='env MTL_HUD_ENABLED=1'
 for i in {2..31}; do
 	alias f$i="fastfetch -c examples/$i.jsonc"
 done
+
+alias dotpull='git -C ~/dotfiles pull'
+alias dotpush='cd ~/dotfiles && gacp'
+
+alias reloadz='source ~/.zshrc'
