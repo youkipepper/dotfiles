@@ -101,12 +101,15 @@ if [ -e "$HOME/.zshrc" ] || [ -L "$HOME/.zshrc" ]; then
 	echo "🧹 Removing existing ~/.zshrc"
 	rm -f "$HOME/.zshrc"
 fi
-link_item "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-# link_item "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
+link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
 echo "If zsh is not your default shell, you can change it with:"
 echo "chsh -s $(which zsh)"
 echo "✅ Setup complete! Please restart your terminal."
+
+echo "Link other shell config..."
+link_item "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
+link_item "$DOTFILES_DIR/bash/.bash_profile" "$HOME/.bash_profile"
 
 # ----------------------------
 # SSH config (ONLY config file)
