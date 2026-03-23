@@ -119,5 +119,5 @@ Optional (auto-installed if missing):
 
 ---
 
-## 🔗 Related Projects
+## 🔗 Proxy Projects
 - [clash-for-linux-install](https://github.com/nelvko/clash-for-linux-install?tab=readme-ov-file)
