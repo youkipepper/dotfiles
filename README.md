@@ -121,3 +121,4 @@ Optional (auto-installed if missing):
 
 ## 🔗 Proxy Projects
 - [clash-for-linux-install](https://github.com/nelvko/clash-for-linux-install?tab=readme-ov-file)
+- [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)
