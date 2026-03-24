@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "🚀 Setting up environment (with China-friendly network fallback)..."
+echo "🚀 Setting up environment..."
 
 # ----------------------------
 # resolve dotfiles path
@@ -17,59 +17,6 @@ for cmd in curl git zsh; do
 		exit 1
 	fi
 done
-
-# ----------------------------
-# smart network layer
-# ----------------------------
-
-GH_PROXY="https://ghproxy.com/"
-
-is_github() {
-	[[ "$1" == https://github.com/* || "$1" == https://raw.githubusercontent.com/* ]]
-}
-
-proxy_url() {
-	local url="$1"
-	if is_github "$url"; then
-		echo "${GH_PROXY}${url}"
-	else
-		echo "$url"
-	fi
-}
-
-curl_smart() {
-	local url="$1"
-	local out="${2:-}"
-
-	local real_url
-	real_url="$(proxy_url "$url")"
-
-	echo "🌐 GET: $real_url"
-
-	if [ -n "$out" ]; then
-		curl -LfsS --retry 3 --retry-delay 2 --connect-timeout 10 "$real_url" -o "$out"
-	else
-		curl -LfsS --retry 3 --retry-delay 2 --connect-timeout 10 "$real_url"
-	fi
-}
-
-git_smart_clone() {
-	local repo="$1"
-	local dir="$2"
-
-	local real_repo="$repo"
-	if is_github "$repo"; then
-		echo "🌐 GitHub proxy clone: $repo"
-		real_repo="${GH_PROXY}${repo}"
-	fi
-
-	if [ ! -d "$dir/.git" ]; then
-		rm -rf "$dir"
-		git clone "$real_repo" "$dir"
-	else
-		echo "✔ exists: $dir"
-	fi
-}
 
 # ----------------------------
 # check dotfiles
@@ -106,55 +53,68 @@ mkdir -p "$HOME/.config"
 if [ -d "$DOTFILES_DIR/.config" ]; then
 	for item in "$DOTFILES_DIR/.config/"*; do
 		[ -e "$item" ] || continue
+
 		target="$HOME/.config/$(basename "$item")"
 		link_item "$item" "$target"
 	done
 fi
 
 echo "✅ Dotfiles setup complete!"
+echo "⚠️ Skipped existing files that are not symlinks. Delete or backup those files and rerun the script to link them."
 
 # ----------------------------
-# zsh environment
+# install oh-my-zsh
 # ----------------------------
 echo "🚀 Setting up zsh environment..."
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	echo "📦 Installing Oh My Zsh..."
-	sh -c "$(curl_smart https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
-git_smart_clone \
+git_clone_if_missing() {
+	local repo="$1"
+	local dir="$2"
+
+	if [ ! -d "$dir/.git" ]; then
+		rm -rf "$dir"
+		git clone "$repo" "$dir"
+	fi
+}
+
+git_clone_if_missing \
 	https://github.com/zsh-users/zsh-autosuggestions \
 	"$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 
-git_smart_clone \
+git_clone_if_missing \
 	https://github.com/zsh-users/zsh-syntax-highlighting \
 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # ----------------------------
 # zsh config
 # ----------------------------
-echo "🔗 Replacing ~/.zshrc..."
+echo "🔗 Replacing ~/.zshrc with dotfiles version..."
 
-rm -f "$HOME/.zshrc"
+if [ -e "$HOME/.zshrc" ] || [ -L "$HOME/.zshrc" ]; then
+	echo "🧹 Removing existing ~/.zshrc"
+	rm -f "$HOME/.zshrc"
+fi
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
+echo "If zsh is not your default shell, you can change it with:"
 echo "chsh -s $(which zsh)"
-echo "✅ zsh setup complete"
+echo "✅ Setup complete! Please restart your terminal."
 
-# ----------------------------
-# bash config
-# ----------------------------
-echo "🐚 Linking bash configs..."
+echo "Link other shell config..."
 link_item "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
 link_item "$DOTFILES_DIR/bash/.bash_profile" "$HOME/.bash_profile"
 
 # ----------------------------
-# SSH config
+# SSH config (ONLY config file)
 # ----------------------------
-echo "🔐 Setting SSH config..."
+echo "🔐 Setting up SSH config..."
 
 mkdir -p "$HOME/.ssh"
 
@@ -163,14 +123,14 @@ SSH_DST="$HOME/.ssh/config"
 
 if [ -f "$SSH_SRC" ]; then
 	if [ -e "$SSH_DST" ] && [ ! -L "$SSH_DST" ]; then
-		echo "⚠️ ssh config exists (not symlink)"
+		echo "⚠️  ~/.ssh/config exists and is not a symlink, skipping"
 	elif [ -L "$SSH_DST" ]; then
+		echo "🔄 updating symlink ~/.ssh/config"
 		ln -sfn "$SSH_SRC" "$SSH_DST"
 	else
+		echo "🔗 linking ~/.ssh/config"
 		ln -s "$SSH_SRC" "$SSH_DST"
 	fi
 else
-	echo "⚠️ missing ssh config in dotfiles"
+	echo "⚠️  dotfiles SSH config not found: $SSH_SRC"
 fi
-
-echo "🎉 DONE! Restart terminal."
