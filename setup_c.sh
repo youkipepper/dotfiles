@@ -69,7 +69,7 @@ echo "🚀 Setting up zsh environment..."
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	echo "📦 Installing Oh My Zsh..."
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	sh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)" "" --unattended
 fi
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
@@ -85,11 +85,11 @@ git_clone_if_missing() {
 }
 
 git_clone_if_missing \
-	https://github.com/zsh-users/zsh-autosuggestions \
+	https://gh-proxy.org/https://github.com/zsh-users/zsh-autosuggestions \
 	"$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 
 git_clone_if_missing \
-	https://github.com/zsh-users/zsh-syntax-highlighting \
+	https://gh-proxy.org/https://github.com/zsh-users/zsh-syntax-highlighting \
 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # ----------------------------
