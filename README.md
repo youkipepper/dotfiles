@@ -130,4 +130,5 @@ Optional (auto-installed if missing):
 ```bash
 ## change Debian sources
 curl -fsSL https://raw.githubusercontent.com/youkipepper/dotfiles/main/tools/debian.sh | sudo bash
+curl -fsSL https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/tools/debian.sh | sudo bash
 ```

@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "🚀 Switching APT sources to TUNA mirror..."
-
-# ----------------------------
-# backup
-# ----------------------------
-echo "📦 Backing up original sources..."
-
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak 2>/dev/null || true
-sudo cp -r /etc/apt/sources.list.d /etc/apt/sources.list.d.bak 2>/dev/null || true
+echo "🚀 Debian / Raspberry Pi mirror switcher"
 
 # ----------------------------
 # detect codename
@@ -21,45 +13,55 @@ if [ -z "$CODENAME" ]; then
     exit 1
 fi
 
-echo "📌 Detected codename: $CODENAME"
+echo "📦 Detected: $CODENAME"
 
 # ----------------------------
-# write sources.list
+# backup
 # ----------------------------
-echo "📝 Updating /etc/apt/sources.list..."
+echo "📁 Backing up old sources..."
+sudo mkdir -p /etc/apt/backup
+sudo cp -r /etc/apt/sources.list* /etc/apt/backup/ 2>/dev/null || true
+
+# ----------------------------
+# remove duplicate sources
+# ----------------------------
+echo "🧹 Cleaning duplicate sources..."
+sudo rm -f /etc/apt/sources.list.d/debian.sources
+
+# ----------------------------
+# write new sources.list
+# ----------------------------
+echo "📝 Writing new sources..."
 
 sudo tee /etc/apt/sources.list >/dev/null <<EOF
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $CODENAME main contrib non-free non-free-firmware
-deb https://mirrors.tuna.tsinghua.edu.cn/debian-security $CODENAME-security main
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $CODENAME-updates main
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security ${CODENAME}-security main
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ ${CODENAME}-updates main
 EOF
 
 # ----------------------------
-# fix debian.sources (if exists)
-# ----------------------------
-if [ -f /etc/apt/sources.list.d/debian.sources ]; then
-    echo "📝 Updating debian.sources..."
-
-    sudo sed -i 's|http://deb.debian.org/debian/|https://mirrors.tuna.tsinghua.edu.cn/debian/|g' /etc/apt/sources.list.d/debian.sources
-    sudo sed -i 's|http://deb.debian.org/debian-security/|https://mirrors.tuna.tsinghua.edu.cn/debian-security|g' /etc/apt/sources.list.d/debian.sources
-fi
-
-# ----------------------------
-# fix raspberrypi source
+# raspberry pi repo
 # ----------------------------
 if [ -f /etc/apt/sources.list.d/raspi.sources ]; then
-    echo "📝 Updating raspi.sources..."
+    echo "🍓 Updating Raspberry Pi repo..."
 
-    sudo sed -i 's|http://archive.raspberrypi.com/debian/|https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/|g' /etc/apt/sources.list.d/raspi.sources
+    sudo tee /etc/apt/sources.list.d/raspi.sources >/dev/null <<EOF
+Types: deb
+URIs: https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/
+Suites: $CODENAME
+Components: main
+Signed-By: /usr/share/keyrings/raspberrypi-archive-keyring.pgp
+EOF
 fi
 
 # ----------------------------
 # update
 # ----------------------------
-echo "🔄 Running apt update..."
+echo "🔄 Updating apt..."
 
 sudo apt update
 
 echo ""
 echo "✅ Done!"
-echo "🚀 Now your apt should be much faster"
+echo "👉 If needed, upgrade with:"
+echo "   sudo apt upgrade -y"
