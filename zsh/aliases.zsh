@@ -19,3 +19,5 @@ alias dotpull='git -C ~/dotfiles pull'
 alias dotpush='cd ~/dotfiles && gacp'
 
 alias reload='source ~/.zshrc'
+
+alias ptest='curl -I --max-time 5 https://www.google.com'
