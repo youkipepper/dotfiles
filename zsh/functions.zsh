@@ -4,18 +4,43 @@ gacp() {
 		git push
 }
 
-gclone() {
-	if [ -z "$1" ]; then
-		echo "Usage: gclone <github-url>"
+smartgit() {
+	local repo="$1"
+	local dir="$2"
+
+	if [ -z "$repo" ]; then
+		echo "Usage: smartgit <repo-url> [dir]"
 		return 1
 	fi
 
-	local url="$1"
+	if [ -z "$dir" ]; then
+		dir="$(basename "$repo" .git)"
+	fi
 
-	if [[ "$url" == *gh-proxy.org* ]]; then
-		git clone "$url"
+	is_github() {
+		[[ "$1" == https://github.com/* ]]
+	}
+
+	try_clone() {
+		local url="$1"
+
+		echo "Cloning: $url"
+
+		git clone "$url" "$dir"
+	}
+
+	if is_github "$repo"; then
+		# 1. direct
+		try_clone "$repo" && return 0
+
+		# 2. ghproxy fallback
+		local proxy="https://ghproxy.com/$repo"
+		try_clone "$proxy" && return 0
+
+		echo "All clone sources failed"
+		return 1
 	else
-		git clone "https://gh-proxy.org/https://github.com/${url#https://github.com/}"
+		try_clone "$repo"
 	fi
 }
 
