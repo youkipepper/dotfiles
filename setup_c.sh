@@ -69,7 +69,7 @@ echo "🚀 Setting up zsh environment..."
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	echo "📦 Installing Oh My Zsh..."
-	sh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)" "" --unattended
+	sh -c "$(curl -fsSL https://gh-proxy.org/https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
