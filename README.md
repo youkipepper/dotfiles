@@ -126,6 +126,10 @@ Optional (auto-installed if missing):
 - [clash-for-linux-install](https://github.com/nelvko/clash-for-linux-install?tab=readme-ov-file)
 - [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)
 
+```bash
+wget https://ghproxy.com/https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.4.7/Clash.Verge_2.4.7_arm64.deb
+```
+
 ---
 
 🔧 Tools 
