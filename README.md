@@ -8,6 +8,9 @@ A minimal, reproducible, and modular development environment setup for Linux/mac
 
 ```bash
 git clone https://github.com/youkipepper/dotfiles.git
+## or
+git clone https://gh-proxy.org/https://github.com/youkipepper/dotfiles.git
+
 cd dotfiles
 bash setup.sh
 ```
