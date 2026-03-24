@@ -119,6 +119,15 @@ Optional (auto-installed if missing):
 
 ---
 
-## 🔗 Proxy Projects
+🔗 Proxy Projects
 - [clash-for-linux-install](https://github.com/nelvko/clash-for-linux-install?tab=readme-ov-file)
 - [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)
+
+---
+
+🔧 Tools 
+
+```bash
+## change Debian sources
+curl -fsSL https://raw.githubusercontent.com/youkipepper/dotfiles/main/tools/debian.sh | sudo bash
+```
