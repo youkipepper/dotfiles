@@ -30,7 +30,7 @@ install_font() {
 	cd "$FONT_DIR"
 
 	curl -L -o maple.zip \
-	https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip
+	https://gh-proxy.org/https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip
 
 	unzip -o maple.zip >/dev/null
 	rm maple.zip
