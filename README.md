@@ -145,3 +145,7 @@ wget https://ghproxy.com/https://github.com/clash-verge-rev/clash-verge-rev/rele
 curl -fsSL https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh | sudo bash
 curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh?$(date +%s)" | sudo bash
 ```
+
+```
+curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh?$(date +%s)" | sudo bash && sudo apt -y upgrade && git clone https://gh-proxy.org/https://github.com/youkipepper/dotfiles.git && sudo apt -y install zsh && bash ~/dotfiles/setup_c.sh
+```
