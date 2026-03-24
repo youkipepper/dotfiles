@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "🚀 Setting up environment (with China-friendly network fallback)..."
+echo "🚀 Setting up environment (stable China-friendly version)..."
 
 # ----------------------------
-# resolve dotfiles path
+# paths
 # ----------------------------
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -19,7 +19,7 @@ for cmd in curl git zsh; do
 done
 
 # ----------------------------
-# smart network layer
+# network layer (safe version)
 # ----------------------------
 
 GH_PROXY="https://ghproxy.com/"
@@ -41,15 +41,12 @@ curl_smart() {
 	local url="$1"
 	local out="${2:-}"
 
-	local real_url
-	real_url="$(proxy_url "$url")"
-
-	echo "🌐 GET: $real_url"
+	url="$(proxy_url "$url")"
 
 	if [ -n "$out" ]; then
-		curl -LfsS --retry 3 --retry-delay 2 --connect-timeout 10 "$real_url" -o "$out"
+		curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 "$url" -o "$out"
 	else
-		curl -LfsS --retry 3 --retry-delay 2 --connect-timeout 10 "$real_url"
+		curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 "$url"
 	fi
 }
 
@@ -58,8 +55,8 @@ git_smart_clone() {
 	local dir="$2"
 
 	local real_repo="$repo"
+
 	if is_github "$repo"; then
-		echo "🌐 GitHub proxy clone: $repo"
 		real_repo="${GH_PROXY}${repo}"
 	fi
 
@@ -72,7 +69,7 @@ git_smart_clone() {
 }
 
 # ----------------------------
-# check dotfiles
+# dotfiles check
 # ----------------------------
 if [ ! -d "$HOME/dotfiles" ]; then
 	echo "❌ ~/dotfiles not found"
@@ -80,19 +77,17 @@ if [ ! -d "$HOME/dotfiles" ]; then
 fi
 
 # ----------------------------
-# helpers
+# symlink helper
 # ----------------------------
 link_item() {
 	src="$1"
 	dst="$2"
 
 	if [ -e "$dst" ] && [ ! -L "$dst" ]; then
-		echo "⚠️  skip $dst (exists and not symlink)"
+		echo "⚠️ skip $dst (exists)"
 	elif [ -L "$dst" ]; then
-		echo "🔄 update symlink $dst"
 		ln -sfn "$src" "$dst"
 	else
-		echo "🔗 link $dst -> $src"
 		ln -s "$src" "$dst"
 	fi
 }
@@ -100,7 +95,8 @@ link_item() {
 # ----------------------------
 # config symlinks
 # ----------------------------
-echo "📁 Setting up dotfiles..."
+echo "📁 Linking dotfiles..."
+
 mkdir -p "$HOME/.config"
 
 if [ -d "$DOTFILES_DIR/.config" ]; then
@@ -111,19 +107,30 @@ if [ -d "$DOTFILES_DIR/.config" ]; then
 	done
 fi
 
-echo "✅ Dotfiles setup complete!"
+echo "✅ dotfiles done"
 
 # ----------------------------
-# zsh environment
+# zsh setup
 # ----------------------------
-echo "🚀 Setting up zsh environment..."
+echo "🚀 setting up zsh..."
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-	echo "📦 Installing Oh My Zsh..."
-	sh -c "$(curl_smart https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	echo "📦 installing oh-my-zsh..."
+
+	TMP_OMZ="/tmp/install_omz.sh"
+
+	curl_smart \
+		https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh \
+		"$TMP_OMZ"
+
+	chmod +x "$TMP_OMZ"
+
+	sh "$TMP_OMZ" "" --unattended
+
+	rm -f "$TMP_OMZ"
 fi
 
-ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 git_smart_clone \
 	https://github.com/zsh-users/zsh-autosuggestions \
@@ -134,27 +141,23 @@ git_smart_clone \
 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # ----------------------------
-# zsh config
+# zshrc
 # ----------------------------
-echo "🔗 Replacing ~/.zshrc..."
+echo "🔗 linking zshrc..."
 
 rm -f "$HOME/.zshrc"
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
-echo "chsh -s $(which zsh)"
-echo "✅ zsh setup complete"
-
 # ----------------------------
-# bash config
+# bash configs
 # ----------------------------
-echo "🐚 Linking bash configs..."
 link_item "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
 link_item "$DOTFILES_DIR/bash/.bash_profile" "$HOME/.bash_profile"
 
 # ----------------------------
-# SSH config
+# ssh config
 # ----------------------------
-echo "🔐 Setting SSH config..."
+echo "🔐 ssh config..."
 
 mkdir -p "$HOME/.ssh"
 
@@ -163,14 +166,12 @@ SSH_DST="$HOME/.ssh/config"
 
 if [ -f "$SSH_SRC" ]; then
 	if [ -e "$SSH_DST" ] && [ ! -L "$SSH_DST" ]; then
-		echo "⚠️ ssh config exists (not symlink)"
+		echo "⚠️ ssh config exists"
 	elif [ -L "$SSH_DST" ]; then
 		ln -sfn "$SSH_SRC" "$SSH_DST"
 	else
 		ln -s "$SSH_SRC" "$SSH_DST"
 	fi
-else
-	echo "⚠️ missing ssh config in dotfiles"
 fi
 
-echo "🎉 DONE! Restart terminal."
+echo "🎉 DONE. restart terminal."
