@@ -7,7 +7,7 @@ A minimal, reproducible, and modular development environment setup for Linux/mac
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/yourname/dotfiles.git
+git clone https://github.com/youkipepper/dotfiles.git
 cd dotfiles
 bash setup.sh
 ```
