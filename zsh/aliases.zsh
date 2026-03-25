@@ -12,6 +12,7 @@ alias mtlhub='env MTL_HUD_ENABLED=1'
 for i in {2..31}; do
 	alias f$i="fastfetch -c examples/$i.jsonc"
 done
+alias fa='fastfetch -c all'
 
 alias dot='cd ~/dotfiles && nvim .'
 alias dotc='cd ~/dotfiles && code .'

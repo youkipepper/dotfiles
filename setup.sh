@@ -62,35 +62,35 @@ fi
 echo "✅ Dotfiles setup complete!"
 echo "⚠️ Skipped existing files that are not symlinks. Delete or backup those files and rerun the script to link them."
 
-# ----------------------------
-# install oh-my-zsh
-# ----------------------------
-echo "🚀 Setting up zsh environment..."
+# # ----------------------------
+# # install oh-my-zsh
+# # ----------------------------
+# echo "🚀 Setting up zsh environment..."
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-	echo "📦 Installing Oh My Zsh..."
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
+# if [ ! -d "$HOME/.oh-my-zsh" ]; then
+# 	echo "📦 Installing Oh My Zsh..."
+# 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+# fi
 
-ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+# ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
-git_clone_if_missing() {
-	local repo="$1"
-	local dir="$2"
+# git_clone_if_missing() {
+# 	local repo="$1"
+# 	local dir="$2"
 
-	if [ ! -d "$dir/.git" ]; then
-		rm -rf "$dir"
-		git clone "$repo" "$dir"
-	fi
-}
+# 	if [ ! -d "$dir/.git" ]; then
+# 		rm -rf "$dir"
+# 		git clone "$repo" "$dir"
+# 	fi
+# }
 
-git_clone_if_missing \
-	https://github.com/zsh-users/zsh-autosuggestions \
-	"$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+# git_clone_if_missing \
+# 	https://github.com/zsh-users/zsh-autosuggestions \
+# 	"$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 
-git_clone_if_missing \
-	https://github.com/zsh-users/zsh-syntax-highlighting \
-	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+# git_clone_if_missing \
+# 	https://github.com/zsh-users/zsh-syntax-highlighting \
+# 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # ----------------------------
 # zsh config

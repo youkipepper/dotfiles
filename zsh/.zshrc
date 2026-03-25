@@ -4,4 +4,5 @@ source ~/dotfiles/zsh/functions.zsh
 source ~/dotfiles/zsh/plugins.zsh
 source ~/dotfiles/zsh/env.zsh
 
-
+## starship
+eval "$(starship init zsh)"
