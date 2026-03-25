@@ -8,32 +8,25 @@
 # ZSH Plugin System (no OMZ)
 # =========================
 
-DOTFILES_ZSH="$HOME/dotfiles/zsh"
-
-# completion
-autoload -Uz compinit
-compinit
+# DOTFILES_ZSH="$HOME/dotfiles/zsh"
+ZSH_PLUGINS="$HOME/.zsh/plugins"
 
 load_plugin() {
 	local dir="$1"
 
 	if [[ -f "$dir/init.zsh" ]]; then
 		source "$dir/init.zsh"
-		return
+	elif [[ -f "$dir/zsh-autosuggestions.zsh" ]]; then
+		source "$dir/zsh-autosuggestions.zsh"
+	elif [[ -f "$dir/zsh-syntax-highlighting.zsh" ]]; then
+		source "$dir/zsh-syntax-highlighting.zsh"
+	else
+		echo "[zsh] plugin not found: $dir"
 	fi
-
-	local name="${dir:t}"
-
-	if [[ -f "$dir/$name.zsh" ]]; then
-		source "$dir/$name.zsh"
-		return
-	fi
-
-	echo "[zsh] plugin not found: $dir"
 }
 
-load_plugin "$DOTFILES_ZSH/plugins/zsh-autosuggestions"
-load_plugin "$DOTFILES_ZSH/plugins/zsh-syntax-highlighting"
+load_plugin "$ZSH_PLUGINS/zsh-autosuggestions"
+load_plugin "$ZSH_PLUGINS/zsh-syntax-highlighting"
 
 autoload -Uz compinit
 compinit
