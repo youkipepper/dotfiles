@@ -15,3 +15,4 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 eval "$(starship init bash)"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

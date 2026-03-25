@@ -4,6 +4,9 @@
 # plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 # source $ZSH/oh-my-zsh.sh
 
+## starship
+eval "$(starship init zsh)"
+
 # =========================
 # ZSH Plugin System (no OMZ)
 # =========================
@@ -30,3 +33,6 @@ load_plugin "$ZSH_PLUGINS/zsh-syntax-highlighting"
 
 autoload -Uz compinit
 compinit
+
+## fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
