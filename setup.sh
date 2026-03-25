@@ -93,6 +93,40 @@ echo "⚠️ Skipped existing files that are not symlinks. Delete or backup thos
 # 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # ----------------------------
+# zsh plugins
+# ----------------------------
+ZSH_PLUGINS="$HOME/.zsh/plugins"
+
+mkdir -p "$ZSH_PLUGINS"
+
+# ----------------------------
+# helper
+# ----------------------------
+git_clone_if_missing() {
+	local repo="$1"
+	local dir="$2"
+
+	if [ ! -d "$dir" ]; then
+		echo "📦 Cloning $(basename "$repo")..."
+		git clone "$repo" "$dir"
+	else
+		echo "✅ Exists: $(basename "$repo")"
+	fi
+}
+
+# ----------------------------
+# plugins
+# ----------------------------
+
+git_clone_if_missing \
+	https://github.com/zsh-users/zsh-autosuggestions \
+	"$ZSH_PLUGINS/zsh-autosuggestions"
+
+git_clone_if_missing \
+	https://github.com/zsh-users/zsh-syntax-highlighting \
+	"$ZSH_PLUGINS/zsh-syntax-highlighting"
+
+# ----------------------------
 # zsh config
 # ----------------------------
 echo "🔗 Replacing ~/.zshrc with dotfiles version..."

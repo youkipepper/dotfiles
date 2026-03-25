@@ -62,35 +62,69 @@ fi
 echo "✅ Dotfiles setup complete!"
 echo "⚠️ Skipped existing files that are not symlinks. Delete or backup those files and rerun the script to link them."
 
+# # ----------------------------
+# # install oh-my-zsh
+# # ----------------------------
+# echo "🚀 Setting up zsh environment..."
+
+# if [ ! -d "$HOME/.oh-my-zsh" ]; then
+# 	echo "📦 Installing Oh My Zsh..."
+# 	sh -c "$(curl -fsSL https://gh-proxy.org/https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+# fi
+
+# ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+
+# git_clone_if_missing() {
+# 	local repo="$1"
+# 	local dir="$2"
+
+# 	if [ ! -d "$dir/.git" ]; then
+# 		rm -rf "$dir"
+# 		git clone "$repo" "$dir"
+# 	fi
+# }
+
+# git_clone_if_missing \
+# 	https://gh-proxy.org/https://github.com/zsh-users/zsh-autosuggestions \
+# 	"$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+
+# git_clone_if_missing \
+# 	https://gh-proxy.org/https://github.com/zsh-users/zsh-syntax-highlighting \
+# 	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+
 # ----------------------------
-# install oh-my-zsh
+# zsh plugins
 # ----------------------------
-echo "🚀 Setting up zsh environment..."
+ZSH_PLUGINS="$HOME/.zsh/plugins"
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-	echo "📦 Installing Oh My Zsh..."
-	sh -c "$(curl -fsSL https://gh-proxy.org/https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
+mkdir -p "$ZSH_PLUGINS"
 
-ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
-
+# ----------------------------
+# helper
+# ----------------------------
 git_clone_if_missing() {
 	local repo="$1"
 	local dir="$2"
 
-	if [ ! -d "$dir/.git" ]; then
-		rm -rf "$dir"
+	if [ ! -d "$dir" ]; then
+		echo "📦 Cloning $(basename "$repo")..."
 		git clone "$repo" "$dir"
+	else
+		echo "✅ Exists: $(basename "$repo")"
 	fi
 }
 
+# ----------------------------
+# plugins
+# ----------------------------
+
 git_clone_if_missing \
 	https://gh-proxy.org/https://github.com/zsh-users/zsh-autosuggestions \
-	"$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+	"$ZSH_PLUGINS/zsh-autosuggestions"
 
 git_clone_if_missing \
 	https://gh-proxy.org/https://github.com/zsh-users/zsh-syntax-highlighting \
-	"$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+	"$ZSH_PLUGINS/zsh-syntax-highlighting"
 
 # ----------------------------
 # zsh config
