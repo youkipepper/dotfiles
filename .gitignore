@@ -30,5 +30,3 @@ install
 .config/nvim/spell
 .config/kitty/font.conf
 scripts/server-icons.txt
-
-./zsh/env.local.zsh
