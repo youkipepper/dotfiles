@@ -13,10 +13,10 @@ NVIM_URL=""
 # ----------------------------
 case "$ARCH" in
 x86_64)
-	NVIM_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+	NVIM_URL="https://gh-proxy.org/https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
 	;;
 aarch64 | arm64)
-	NVIM_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz"
+	NVIM_URL="https://gh-proxy.org/https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz"
 	;;
 *)
 	echo "❌ Unsupported architecture: $ARCH"
