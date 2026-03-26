@@ -13,10 +13,10 @@ echo "🚀 Restoring GNOME extensions..."
 INSTALLER="/tmp/gnome-shell-extension-installer"
 
 if [ ! -f "$INSTALLER" ]; then
-  echo "📦 downloading installer..."
-  curl -sL https://raw.githubusercontent.com/brunelli/gnome-shell-extension-installer/master/gnome-shell-extension-installer \
-    -o "$INSTALLER"
-  chmod +x "$INSTALLER"
+	echo "📦 downloading installer..."
+	curl -sL https://raw.githubusercontent.com/brunelli/gnome-shell-extension-installer/master/gnome-shell-extension-installer \
+		-o "$INSTALLER"
+	chmod +x "$INSTALLER"
 fi
 
 # ----------------------------
@@ -25,21 +25,21 @@ fi
 echo "📦 installing extensions..."
 
 while read -r ext; do
-  [ -z "$ext" ] && continue
+	[ -z "$ext" ] && continue
 
-  name="${ext%@*}"
-  echo "👉 $ext"
+	name="${ext%@*}"
+	echo "👉 $ext"
 
-  "$INSTALLER" "$name" || true
-  gnome-extensions enable "$ext" || true
+	"$INSTALLER" "$name" || true
+	gnome-extensions enable "$ext" || true
 
-done < "$LIST"
+done <"$LIST"
 
 # ----------------------------
 # restore config
 # ----------------------------
 echo "⚙️ restoring config..."
-dconf load /org/gnome/shell/extensions/ < "$CONF" || true
+dconf load /org/gnome/shell/extensions/ <"$CONF" || true
 
 echo "✅ Done!"
 echo "⚠️ Press Alt+F2 → r to restart GNOME (or relogin)"

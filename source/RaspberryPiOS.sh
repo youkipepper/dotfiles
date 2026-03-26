@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "🚀 Raspberry Pi OS mirror switcher (optimized)"
-
-# ----------------------------
-# detect system info
-# ----------------------------
-CODENAME=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
-ARCH=$(dpkg --print-architecture)
-
+echo "🚀 Raspberry Pi OS mirror switcher (optimized)" # ---------------------------- # detect system info # ---------------------------- CODENAME=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2) ARCH=$(dpkg --print-architecture)
 if [ -z "$CODENAME" ]; then
     echo "❌ Cannot detect system codename"
     exit 1
