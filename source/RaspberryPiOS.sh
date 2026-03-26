@@ -1,6 +1,23 @@
 #!/usr/bin/env bash
 set -e
 
+echo "🚀 Raspberry Pi OS mirror switcher (optimized)"
+
+# ----------------------------
+# detect system info
+# ----------------------------
+CODENAME=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
+ARCH=$(dpkg --print-architecture)
+
+if [ -z "$CODENAME" ]; then
+	echo "❌ Cannot detect system codename, defaulting to debian"
+	CODENAME="bullseye" # fallback
+fi
+
+echo "📦 Detected:"
+echo "   Codename: $CODENAME"
+echo "   Arch: $ARCH"
+
 # ----------------------------
 # backup
 # ----------------------------
@@ -19,7 +36,6 @@ sudo rm -f /etc/apt/sources.list.d/debian.sources || true
 # main Debian repo (TUNA mirror)
 # ----------------------------
 echo "📝 Writing Debian sources.list..."
-
 sudo tee /etc/apt/sources.list >/dev/null <<EOF
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $CODENAME main contrib non-free non-free-firmware
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $CODENAME-updates main contrib non-free non-free-firmware
@@ -30,9 +46,8 @@ EOF
 # Raspberry Pi repo (correct official format)
 # ----------------------------
 echo "🍓 Configuring Raspberry Pi repository..."
-
 sudo tee /etc/apt/sources.list.d/raspi.list >/dev/null <<EOF
-deb http://archive.raspberrypi.com/debian/ $CODENAME main
+deb http://archive.raspberrypi.org/debian/ $CODENAME main
 EOF
 
 # ----------------------------
