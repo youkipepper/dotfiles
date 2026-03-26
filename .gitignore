@@ -31,4 +31,4 @@ install
 .config/kitty/font.conf
 scripts/server-icons.txt
 
-zsh/env.local.zsh
+./zsh/env.local.zsh
