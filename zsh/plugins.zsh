@@ -4,9 +4,6 @@
 # plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 # source $ZSH/oh-my-zsh.sh
 
-## starship
-eval "$(starship init zsh)"
-
 # =========================
 # ZSH Plugin System (no OMZ)
 # =========================

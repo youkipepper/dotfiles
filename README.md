@@ -143,7 +143,7 @@ wget https://ghproxy.com/https://github.com/clash-verge-rev/clash-verge-rev/rele
 ```bash
 ## change Debian sources
 curl -fsSL https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh | sudo bash
-curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh?$(date +%s)" | sudo bash
+curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/RaspberryPiOS.sh?$(date +%s)" | sudo bash
 ```
 
 ```

@@ -1,6 +1,6 @@
 ## font
-# font-family = "Maple Mono NF CN"
-font-family = "JetBrainsMonoNL Nerd Font Mono"
+font-family = "Maple Mono NF CN"
+# font-family = "JetBrainsMonoNL Nerd Font Mono"
 font-size = 13
 # font-thicken = true
 # font-feature = "+cv01 +ss02 +ss04 +ss05 +zero"
