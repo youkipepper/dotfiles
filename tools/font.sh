@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "🔤 Installing Maple Mono Nerd Font..."
+echo "🔤 Nerd Font Installer (multi-font support)"
 
 # ----------------------------
-# check tools
+# Check required tools
 # ----------------------------
 for cmd in curl unzip fc-cache; do
 	if ! command -v "$cmd" >/dev/null 2>&1; then
@@ -14,35 +14,48 @@ for cmd in curl unzip fc-cache; do
 done
 
 # ----------------------------
-# install Maple Mono Nerd Font
+# Font list (name => URL)
+# ----------------------------
+declare -A FONTS=(
+	["MapleMono"]="https://gh-proxy.org/https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip"
+	# ["FiraCode"]="https://gh-proxy.org/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip"
+	["JetBrainsMono"]="https://gh-proxy.org/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/JetBrainsMono.zip"
+)
+
+# ----------------------------
+# Install font function
 # ----------------------------
 install_font() {
-	FONT_DIR="$HOME/.local/share/fonts"
+	local font_name="$1"
+	local font_url="$2"
+	local FONT_DIR="$HOME/.local/share/fonts"
 
-	if fc-list | grep -qi "MapleMono"; then
-		echo "✔ Maple Mono already installed"
+	if fc-list | grep -qi "$font_name"; then
+		echo "✔ $font_name already installed"
 		return
 	fi
 
-	echo "📦 Installing Maple Mono Nerd Font..."
+	echo "📦 Installing $font_name..."
 
 	mkdir -p "$FONT_DIR"
 	cd "$FONT_DIR"
 
-	curl -L -o maple.zip \
-	https://gh-proxy.org/https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip
+	local zip_file="${font_name}.zip"
 
-	unzip -o maple.zip >/dev/null
-	rm maple.zip
+	curl -L -o "$zip_file" "$font_url"
+	unzip -o "$zip_file" >/dev/null
+	rm "$zip_file"
 
 	fc-cache -fv >/dev/null 2>&1 || true
 
-	echo "✅ Font installed"
+	echo "✅ $font_name installed"
 }
 
 # ----------------------------
-# run
+# Install all fonts
 # ----------------------------
-install_font
+for font in "${!FONTS[@]}"; do
+	install_font "$font" "${FONTS[$font]}"
+done
 
-echo "🎉 Maple Mono setup complete!"
+echo "🎉 All selected fonts setup complete!"
