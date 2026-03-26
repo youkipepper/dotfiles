@@ -2,43 +2,6 @@
 set -e
 
 # ----------------------------
-# Detect system info (robust)
-# ----------------------------
-
-# Source /etc/os-release if available
-if [ -f /etc/os-release ]; then
-	. /etc/os-release
-fi
-
-# Use VERSION_CODENAME if present
-CODENAME="${VERSION_CODENAME}"
-
-# Fallback: use lsb_release
-if [ -z "$CODENAME" ] && command -v lsb_release >/dev/null 2>&1; then
-	CODENAME=$(lsb_release -cs)
-fi
-
-# Fallback: extract from VERSION string
-if [ -z "$CODENAME" ] && [ -n "$VERSION" ]; then
-	CODENAME=$(echo "$VERSION" | sed -n 's/.*(\(.*\)).*/\1/p')
-fi
-
-# Architecture
-ARCH=$(dpkg --print-architecture)
-
-# Final fallback
-if [ -z "$CODENAME" ]; then
-	echo "⚠️  Could not detect codename automatically."
-	echo "👉 Defaulting to: bookworm"
-	CODENAME="bookworm"
-fi
-
-echo "📦 Detected:"
-echo "   ID: ${ID:-unknown}"
-echo "   Codename: $CODENAME"
-echo "   Arch: $ARCH"
-
-# ----------------------------
 # backup
 # ----------------------------
 echo "📁 Backing up old sources..."
