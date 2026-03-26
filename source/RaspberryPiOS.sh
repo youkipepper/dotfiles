@@ -1,25 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
-echo "🚀 Raspberry Pi OS mirror switcher (optimized)"
+echo "🚀 Raspberry Pi OS / Debian mirror switcher (simplified)"
 
 # ----------------------------
-# detect system info
+# configuration
 # ----------------------------
-CODENAME=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
+CODENAME="trixie"   # Debian codename, change if needed
 ARCH=$(dpkg --print-architecture)
 
-if [ -z "$CODENAME" ]; then
-    echo "⚠️ Cannot detect codename, defaulting to trixie"
-    CODENAME="trixie"
-fi
-
-echo "📦 Detected:"
-echo "   Codename: $CODENAME"
-echo "   Arch: $ARCH"
+echo "📦 Using codename: $CODENAME"
+echo "📦 Architecture: $ARCH"
 
 # ----------------------------
-# backup
+# backup existing sources
 # ----------------------------
 echo "📁 Backing up old sources..."
 sudo mkdir -p /etc/apt/backup
@@ -36,7 +30,8 @@ sudo rm -f /etc/apt/sources.list.d/raspi.list || true
 # ----------------------------
 # main Debian repo (TUNA mirror)
 # ----------------------------
-echo "📝 Writing Debian sources.list..."
+echo "📝 Writing /etc/apt/sources.list..."
+
 sudo tee /etc/apt/sources.list >/dev/null <<EOF
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $CODENAME main contrib non-free non-free-firmware
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ $CODENAME-updates main contrib non-free non-free-firmware
@@ -44,18 +39,22 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ $CODENAME-security mai
 EOF
 
 # ----------------------------
-# Raspberry Pi repo (correct official format)
+# Raspberry Pi repo (official)
 # ----------------------------
-echo "🍓 Configuring Raspberry Pi repository..."
-# ensure keyring exists
-if [ ! -f /usr/share/keyrings/raspberrypi-archive-keyring.gpg ]; then
-    echo "🔑 Installing Raspberry Pi keyring..."
-    sudo apt install -y raspberrypi-archive-keyring
-fi
+echo "🍓 Writing /etc/apt/sources.list.d/raspi.list..."
 
 sudo tee /etc/apt/sources.list.d/raspi.list >/dev/null <<EOF
-deb [signed-by=/usr/share/keyrings/raspberrypi-archive-keyring.gpg] http://archive.raspberrypi.org/debian/ $CODENAME main
+deb [signed-by=/usr/share/keyrings/raspberrypi-archive-keyring.gpg] http://archive.raspberrypi.com/debian/ $CODENAME main
 EOF
+
+# ----------------------------
+# ensure Raspberry Pi keyring exists
+# ----------------------------
+if [ ! -f /usr/share/keyrings/raspberrypi-archive-keyring.gpg ]; then
+    echo "🔑 Installing Raspberry Pi keyring..."
+    sudo apt update
+    sudo apt install -y raspberrypi-archive-keyring
+fi
 
 # ----------------------------
 # update
