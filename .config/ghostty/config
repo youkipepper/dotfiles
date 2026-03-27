@@ -10,8 +10,8 @@ adjust-cell-height = 3
 adjust-cell-width = 1
 
 ## theme
-# theme = Catppuccin Mocha
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = Catppuccin Mocha
+# theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 
 ## window
 # background-opacity = 0.8
