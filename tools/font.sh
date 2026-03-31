@@ -20,7 +20,6 @@ declare -A FONTS=(
 	["MapleMono"]="https://gh-proxy.org/https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip"
 	# ["FiraCode"]="https://gh-proxy.org/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip"
 	["JetBrainsMono"]="https://gh-proxy.org/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/JetBrainsMono.zip"
-	["SourceHanSansCN"]="https://gh-proxy.org/https://github.com/adobe-fonts/source-han-sans/archive/refs/tags/2.005R.zip"
 )
 
 # ----------------------------
