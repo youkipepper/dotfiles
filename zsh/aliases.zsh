@@ -2,7 +2,7 @@
 alias packz='f(){ zip -r "${1%/}.zip" "$1"; }; f'
 alias packt='f(){ tar -czvf "${1%/}.tar.gz" "$1"; }; f'
 
-alias lsa='ls -alh'
+alias lsa='lsd -alh'
 
 alias comfy='conda activate comfyui && cd ~/Desktop/Code/ComfyUI && python main.py'
 
