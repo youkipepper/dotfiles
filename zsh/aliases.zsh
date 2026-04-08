@@ -13,6 +13,7 @@ for i in {2..31}; do
 	alias f$i="fastfetch -c examples/$i.jsonc"
 done
 alias fa='fastfetch -c all'
+alias f='fastfetch'
 
 alias dot='cd ~/dotfiles && nvim .'
 alias dotc='cd ~/dotfiles && code .'
