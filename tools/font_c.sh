@@ -17,9 +17,9 @@ done
 # Font list (name => URL)
 # ----------------------------
 declare -A FONTS=(
-	["MapleMono"]="https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip"
+	["MapleMono"]="https://gh-proxy.org/https://github.com/subframe7536/maple-font/releases/download/v7.1/MapleMono-NF-CN.zip"
 	# ["FiraCode"]="https://gh-proxy.org/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip"
-	["JetBrainsMono"]="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/JetBrainsMono.zip"
+	["JetBrainsMono"]="https://gh-proxy.org/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/JetBrainsMono.zip"
 )
 
 # ----------------------------
