@@ -26,3 +26,8 @@ alias ptest='curl -I --max-time 5 https://www.google.com'
 
 alias python='python3'
 alias pip='pip3'
+
+alias sp='starship preset --list'
+spuse() {
+	starship preset "$1" -o ~/.config/starship.toml
+}
