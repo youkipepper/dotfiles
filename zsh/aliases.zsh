@@ -31,3 +31,5 @@ alias sp='starship preset --list'
 spuse() {
 	starship preset "$1" -o ~/.config/starship.toml
 }
+
+alias pipc='pip install -i https://pypi.tuna.tsinghua.edu.cn/simple'
