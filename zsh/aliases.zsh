@@ -4,8 +4,6 @@ alias packt='f(){ tar -czvf "${1%/}.tar.gz" "$1"; }; f'
 
 alias lsa='lsd -alh'
 
-alias comfy='conda activate comfyui && cd ~/Desktop/Code/ComfyUI && python main.py'
-
 alias mtlhub='env MTL_HUD_ENABLED=1'
 
 ## fastfetch
@@ -24,8 +22,8 @@ alias reload='source ~/.zshrc'
 
 alias ptest='curl -I --max-time 5 https://www.google.com'
 
-alias python='python3'
-alias pip='pip3'
+# alias python='python3'
+# alias pip='pip3'
 
 alias sp='starship preset --list'
 spuse() {
