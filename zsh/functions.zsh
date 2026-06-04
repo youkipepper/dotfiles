@@ -86,3 +86,33 @@ smartdl() {
 		try_download "$url"
 	fi
 }
+
+# Codex profile launcher
+cx() {
+    local profile="$1"
+    local base="$HOME/.agents/codex"
+
+    if [[ -z "$profile" ]]; then
+        echo "Usage: cx <profile>"
+        echo
+        echo "Available profiles:"
+        ls -1 "$base"
+        return 1
+    fi
+
+    if [[ ! -d "$base/$profile" ]]; then
+        echo "Error: profile '$profile' not found"
+        echo
+        echo "Available profiles:"
+        ls -1 "$base"
+        return 1
+    fi
+
+    export CODEX_HOME="$base/$profile"
+
+    echo "Using Codex profile: $profile"
+    echo "CODEX_HOME=$CODEX_HOME"
+    echo
+
+    codex
+}
