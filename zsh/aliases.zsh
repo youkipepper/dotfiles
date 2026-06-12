@@ -35,3 +35,5 @@ alias pipc='pip install -i https://pypi.tuna.tsinghua.edu.cn/simple'
 alias codexc='cd ~/.codex && code .'
 
 alias ds='du -h -d 1 | sort -hr'
+
+alias fixapp="sudo xattr -r -d com.apple.quarantine"
