@@ -14,3 +14,4 @@ export PATH="/Users/youkipepper/Desktop/3rd_party/vcpkg:$PATH"
 export VCPKG_ROOT=$HOME/Desktop/3rd_party/vcpkg
 
 export PATH=$HOME/.npm-global/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
