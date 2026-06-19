@@ -45,6 +45,8 @@ focus-follows-mouse = true
 
 ## quick terminal
 keybind = global:ctrl+grave_accent=toggle_quick_terminal
+keybind = cmd+shift+o=toggle_background_opacity
+keybind = ctrl+shift+o=toggle_background_opacity
 # quick-terminal-position = top
 quick-terminal-size = 50%,80%
 quick-terminal-position = center
@@ -68,7 +70,7 @@ clipboard-paste-bracketed-safe = true
 ## for macOS
 # macos-titlebar-style = hidden
 macos-icon = custom
-macos-custom-icon = /Users/youkipepper/.config/ghostty/rose-pine.icns
+macos-custom-icon = /Users/youkipepper/dotfiles/.config/ghostty/catppuccin-mocha.icns
 
 ## for vibe
 # window-width = 160
