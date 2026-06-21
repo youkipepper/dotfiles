@@ -6,6 +6,3 @@ source ~/dotfiles/zsh/env.zsh
 
 ## starship
 eval "$(starship init zsh)"
-
-# Added by Antigravity CLI installer
-export PATH="/Users/youkipepper/.local/bin:$PATH"
