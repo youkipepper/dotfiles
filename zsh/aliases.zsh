@@ -48,3 +48,5 @@ elif command -v pip3 >/dev/null 2>&1; then
 fi
 
 alias ds='du -h -d 1 | sort -hr'
+
+alias cxrs="pkill -f 'codex app-server --listen unix://'"
