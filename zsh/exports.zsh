@@ -1,17 +1,32 @@
-# android studio
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
+typeset -U path PATH
 
-# xterm
-export TERM=xterm-256color
+for dir in \
+	"$HOME/bin" \
+	"$HOME/.local/bin" \
+	"$HOME/.npm-global/bin"; do
+	[[ -d "$dir" ]] && path=("$dir" $path)
+done
+unset dir
 
-export PATH="/Library/TeX/texbin:$PATH"
+if [[ "$OSTYPE" == darwin* ]]; then
+	if [[ -d "$HOME/Library/Android/sdk" ]]; then
+		export ANDROID_HOME="$HOME/Library/Android/sdk"
+		for dir in \
+			"$ANDROID_HOME/emulator" \
+			"$ANDROID_HOME/platform-tools" \
+			"$ANDROID_HOME/tools" \
+			"$ANDROID_HOME/tools/bin"; do
+			[[ -d "$dir" ]] && path+=("$dir")
+		done
+		unset dir
+	fi
 
-export PATH="/Users/youkipepper/Desktop/3rd_party/vcpkg:$PATH"
-export VCPKG_ROOT=$HOME/Desktop/3rd_party/vcpkg
+	[[ -d /Library/TeX/texbin ]] && path=(/Library/TeX/texbin $path)
 
-export PATH=$HOME/.npm-global/bin:$PATH
-export PATH="$HOME/.local/bin:$PATH"
+	if [[ -d "$HOME/Desktop/3rd_party/vcpkg" ]]; then
+		export VCPKG_ROOT="$HOME/Desktop/3rd_party/vcpkg"
+		path=("$VCPKG_ROOT" $path)
+	fi
+fi
+
+export PATH

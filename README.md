@@ -8,11 +8,13 @@ A minimal, reproducible, and modular development environment setup for Linux/mac
 
 ```bash
 git clone https://github.com/youkipepper/dotfiles.git
-## or
+## or, when using the GitHub proxy
 git clone https://gh-proxy.org/https://github.com/youkipepper/dotfiles.git
 
 cd dotfiles
 bash setup.sh
+# Use proxy URLs when installing Zsh plugins:
+bash setup.sh --proxy
 ```
 
 💡 Recommended: run on a fresh system or test VM first
@@ -29,26 +31,27 @@ This repository automatically configures your development environment in a repro
 
 📁 Dotfiles management
 
-All configs are symlinked into ~/.config/:
-- nvim → Neovim configuration
-- kitty → Terminal emulator config
-- btop → System monitor config
-- ghostty → Terminal config
-- zsh → Shell configuration
-- and more…
+Configurations under `.config/` are symlinked into `~/.config/`:
+- fastfetch
+- ghostty
+- kitty
+- lsd
+- nvim
+- wezterm
+
+The script also links the Zsh and Bash configuration when the destination does not contain a regular file.
 
 ---
 
 🐚 Shell Environment (Zsh)
 
 Automatically configures:
-- Installs Oh My Zsh (if missing)
-- Sets up:
-  - ~/.zshrc
-  - ~/.zprofile
+- Links `~/.zshrc`
+- Sets Zsh as the default login shell
 - Installs plugins:
   - zsh-autosuggestions
   - zsh-syntax-highlighting
+- Initializes Starship only when it is installed
 
 ---
 
@@ -73,13 +76,17 @@ Example output:
 
 ```bash
 dotfiles/
+├── .config/
+├── bash/
+├── gnome/
+├── pkg/
+├── source/
 ├── setup.sh
-├── zsh/
-├── nvim/
-├── kitty/
-├── btop/
-└── ghostty/
+├── tools/
+└── zsh/
 ```
+
+`gnome/extensions.list` records preferred GNOME Shell extensions without installing or restoring them automatically.
 
 ---
 
@@ -88,11 +95,23 @@ dotfiles/
 Before running:
 - git
 - bash
+- zsh
 - Internet connection
 
-Optional (auto-installed if missing):
-- zsh
-- curl
+Optional:
+- starship
+- lsd
+- fastfetch
+
+Install package groups on macOS, Ubuntu, Fedora, or Arch Linux:
+
+```bash
+bash pkg/install.sh cli
+bash pkg/install.sh gui
+bash pkg/install.sh all
+```
+
+Packages without a configured source for the current platform are skipped.
 
 ---
 
@@ -141,11 +160,10 @@ wget https://ghproxy.com/https://github.com/clash-verge-rev/clash-verge-rev/rele
 🔧 Tools 
 
 ```bash
-## change Debian sources
-curl -fsSL https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh | sudo bash
-curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/RaspberryPiOS.sh?$(date +%s)" | sudo bash
-```
+## Install selected fonts
+bash tools/font.sh
+bash tools/font.sh --proxy
 
-```
-curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/debian.sh?$(date +%s)" | sudo bash && sudo apt -y upgrade && git clone https://gh-proxy.org/https://github.com/youkipepper/dotfiles.git && sudo apt -y install zsh && bash ~/dotfiles/setup_c.sh
+## Configure Raspberry Pi OS sources
+curl -fsSL "https://gh-proxy.org/https://raw.githubusercontent.com/youkipepper/dotfiles/main/source/RaspberryPiOS.sh?$(date +%s)" | sudo bash
 ```

@@ -1,35 +1,22 @@
-# ## ohmyzsh
-# export ZSH="$HOME/.oh-my-zsh"
-# ZSH_THEME="kardan" # set by `omz`
-# plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
-# source $ZSH/oh-my-zsh.sh
-
-# =========================
-# ZSH Plugin System (no OMZ)
-# =========================
-
-# DOTFILES_ZSH="$HOME/dotfiles/zsh"
 ZSH_PLUGINS="$HOME/.zsh/plugins"
+ZSH_AUTOSUGGESTIONS="$ZSH_PLUGINS/zsh-autosuggestions"
 
-load_plugin() {
-	local dir="$1"
-
-	if [[ -f "$dir/init.zsh" ]]; then
-		source "$dir/init.zsh"
-	elif [[ -f "$dir/zsh-autosuggestions.zsh" ]]; then
-		source "$dir/zsh-autosuggestions.zsh"
-	elif [[ -f "$dir/zsh-syntax-highlighting.zsh" ]]; then
-		source "$dir/zsh-syntax-highlighting.zsh"
-	else
-		echo "[zsh] plugin not found: $dir"
-	fi
-}
-
-load_plugin "$ZSH_PLUGINS/zsh-autosuggestions"
-load_plugin "$ZSH_PLUGINS/zsh-syntax-highlighting"
+if [[ -f "$ZSH_AUTOSUGGESTIONS/zsh-autosuggestions.zsh" ]]; then
+	source "$ZSH_AUTOSUGGESTIONS/zsh-autosuggestions.zsh"
+elif [[ -f "$ZSH_AUTOSUGGESTIONS/init.zsh" ]]; then
+	source "$ZSH_AUTOSUGGESTIONS/init.zsh"
+fi
 
 autoload -Uz compinit
-compinit
+ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ ! -f "$ZSH_COMPDUMP" || -n "$ZSH_COMPDUMP"(#qN.mh+24) ]]; then
+	compinit
+else
+	compinit -C
+fi
 
-## fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ -f "$HOME/.fzf.zsh" ]]; then
+	source "$HOME/.fzf.zsh"
+fi
+
+unset ZSH_AUTOSUGGESTIONS ZSH_COMPDUMP ZSH_PLUGINS
