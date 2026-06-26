@@ -47,9 +47,9 @@ focus-follows-mouse = true
 keybind = global:ctrl+grave_accent=toggle_quick_terminal
 keybind = cmd+shift+o=toggle_background_opacity
 keybind = ctrl+shift+o=toggle_background_opacity
-# quick-terminal-position = top
-quick-terminal-size = 50%,80%
-quick-terminal-position = center
+quick-terminal-position = top
+quick-terminal-size = 30%,100%
+# quick-terminal-position = center
 # quick-terminal-size = 50%,50%
 quick-terminal-screen = mouse
 quick-terminal-autohide = true
